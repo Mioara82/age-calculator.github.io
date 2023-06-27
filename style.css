@@ -44,17 +44,32 @@ html body{
 	font-size: 1rem;
 }
 
-
-.part> hr {
-	opacity: 0.6;
-	
-
-.part > .image{
-	background-color: #A930EC;
-	border-radius: 50%;
-	
+#data-input > input:hover{
+	cursor: pointer;
 }
 
+.secondary{
+	margin-top: 1rem;
+	display: flex;
+	align-items: flex-start;
+}
+
+.secondary > hr {
+	opacity: 0.6;	
+	width: 40vw;
+	margin-top: 1.5rem;
+}
+
+.secondary >.image{
+	background-color: #A930EC;
+	border-radius: 50%;
+	max-width: 10vw;
+}
+
+.secondary > .image:hover {
+	background-color: black;
+	cursor: pointer;
+}
 #results {
 	display: flex;
 	flex-direction: column;
@@ -91,3 +106,19 @@ html body{
 .attribution a { 
 	color: hsl(228, 45%, 44%); 
 }
+
+
+.error-message {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.error-label {
+  color: red;
+}
+
+.error-input {
+  border: 1px solid red;
+}
+
