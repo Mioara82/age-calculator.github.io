@@ -61,7 +61,7 @@ html body{
 }
 
 .secondary > #calculateButton{
-	background-image: url(/Users/mioaracenusa/Documents/GitHub/age-calculator.github.io/assets/images/icon-arrow.svg);
+	background-image: url(/assets/images/icon-arrow.svg);
 	background-color: #A930EC;
 	border-radius: 50%;
 	width: 50px;

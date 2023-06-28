@@ -25,11 +25,8 @@ const inputElement = document.getElementsByClassName('input-element');
 
   const today = new Date(currentDay, currentMonth, currentYear);
 
-//add event listener to button
-
 
   function calculateAge() {
-  
   if(isValidDate() && checkInputIsNotEmpty()){
     let year_difference = today.getFullYear() - birthDate.getFullYear();
     let one_or_zero = (today.getMonth() < birthDate.getMonth()) || 
