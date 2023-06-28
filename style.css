@@ -60,13 +60,15 @@ html body{
 	margin-top: 1.5rem;
 }
 
-.secondary >.image{
+.secondary > #calculateButton{
+	background-image: url(/Users/mioaracenusa/Documents/GitHub/age-calculator.github.io/assets/images/icon-arrow.svg);
 	background-color: #A930EC;
 	border-radius: 50%;
-	max-width: 10vw;
+	width: 50px;
+	height: 50px;
 }
 
-.secondary > .image:hover {
+.secondary > #calculateButton:hover {
 	background-color: black;
 	cursor: pointer;
 }

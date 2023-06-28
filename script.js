@@ -1,107 +1,130 @@
-
+//get input elements
 const dayInput = document.getElementById('dayInput');
 const monthInput = document.getElementById('MonthInput');
 const yearInput = document.getElementById('YearInput');
+
+//get result elements
 const yearResult = document.getElementById('year-result');
 const monthResult = document.getElementById('month-result');
 const dayResult = document.getElementById('day-result');
+
+//get other elements
 const labelText = document.getElementById('label');
-const dataInput = document.getElementById('data-input');
+const button = document.getElementById('calculateButton');
+const inputElement = document.getElementsByClassName('input-element');
 
-// Add an event listener to the input elements
-dayInput.addEventListener('input', calculateAge);
-monthInput.addEventListener('input', calculateAge);
-yearInput.addEventListener('input', calculateAge);
+  const birthDay = parseInt(dayInput.value);
+  const birthMonth = parseInt(monthInput.value);
+  const birthYear = parseInt(yearInput.value);
 
-function isValidDay(day, month, year) {
-	if (month === 2 && const maxDaysInMonth = new Date(year, month, 0).getDate()) {
-    const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-    return day >= 1 && day <= (isLeapYear ? 29 : 28);
-  } else if ([4, 6, 9, 11].includes(month)) {
-    // Check for months with 30 days: April (4), June (6), September (9), November (11)
-    return day >= 1 && day <=maxDaysInMonth ;
-  } else {
-    // Check for months with 31 days
-    return day >= 1 && day <= maxDaysInMonth;
-  }  
-}
+  const birthDate = new Date(birthDay, birthMonth, birthYear);
 
-function isValidMonth(month) {
-  return month >= 1 && month <= 12;
-}
-
-function isValidYear(year) {
   const currentYear = new Date().getFullYear();
-  return year >= 1900 && year <= currentYear;
+  const currentMonth = new Date().getMonth() + 1;
+  const currentDay = new Date().getDate();
+
+  const today = new Date(currentDay, currentMonth, currentYear);
+
+//add event listener to button
+
+
+  function calculateAge() {
+  
+  if(isValidDate() && checkInputIsNotEmpty()){
+    let year_difference = today.getFullYear() - birthDate.getFullYear();
+    let one_or_zero = (today.getMonth() < birthDate.getMonth()) || 
+                      (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate());
+     let age = year_difference - one_or_zero;  
+     return age;               
+  // display calculated age
+
+    yearResult.textContent = ageYear;
+    monthResult.textContent = ageMonth;
+    dayResult.textContent = ageDay;
+} else {
+  alert('Date is not valid')};
 }
 
-function displayErrorMessage(inputElement, message) {
-  const errorElement = inputElement.nextElementSibling;
-  errorElement.textContent = message;
-  errorElement.classList.add('error-message');
+  function checkInputIsNotEmpty(){
+    if (!yearInput.value || !monthInput.value || !dayInput.value) {
+      showError('Please fill in all the fields.');
+      labelText.classList.add('error-label');
+      inputElement.classList.add('error-input');
+      return;
+    }
+  }
+  // Check if the entered year is in the future
 
-  inputElement.classList.add('error-input');
-  const label = document.querySelector(`label[for="${inputElement.id}"]`);
-  label.classList.add('error-label');
-}
+  
 
-function removeErrorMessage(element) {
-  const errorElement = inputElement.nextElementSibling;
-  errorElement.textContent = '';
-  errorElement.classList.remove('error-message');
-
-  inputElement.classList.remove('error-input');
-  const label = document.querySelector(`label[for="${inputElement.id}"]`);
-  label.classList.remove('error-label');
-}
-
-function calculateAge() {
-  const day = parseInt(dayInput.value);
-  const month = parseInt(monthInput.value);
-  const year = parseInt(yearInput.value);
-
-  const isValidDayValue = isValidDay(day, month, year);
-  const isValidMonthValue = isValidMonth(month);
-  const isValidYearValue = isValidYear(year);
-
-  if (!isValidDayValue) {
-    displayErrorMessage(dayInput, 'Must be a valid day');
-  } else {
-    removeErrorMessage(dayInput);
+  function isValidDate() {
+  const DaysInMonth = getDaysInMonth(birthYear, birthMonth);
+  if(birthDay < 1 || birthDay > DaysInMonth) {
+    showError('Invalid day. Please enter a valid day.');
+    labelText.classList.add('error-label');
+    inputElement.classList.add('error-input');
+    return;
+  }
+  if(birthYear > currentYear){
+    showError('Invalid year. Please enter a valid year.');
+    labelText.classList.add('error-label');
+    inputElement.classList.add('error-input');
+    return;
   }
 
-  if (!isValidMonthValue) {
-    displayErrorMessage(monthInput, 'Must be a valid month');
-  } else {
-    removeErrorMessage(monthInput);
-  }
+  // Check if the entered month is valid
 
-  if (!isValidYearValue) {
-    displayErrorMessage(yearInput, 'Must be in the past');
-  } else {
-    removeErrorMessage(yearInput);
-  }
-
-  if (isValidDayValue && isValidMonthValue && isValidYearValue) {
-    const birthDate = new Date(year, month - 1, day);
-    const currentDate = new Date();
-
-    const ageInMilliseconds = currentDate - birthDate;
-    const ageDate = new Date(ageInMilliseconds);
-
-    const years = ageDate.getUTCFullYear() - 1970;
-    const months = ageDate.getUTCMonth();
-    const days = ageDate.getUTCDate() - 1;
-
-    yearResult.textContent = years;
-    monthResult.textContent = months;
-    dayResult.textContent = days;
-  } else {
-    yearResult.textContent = '- -';
-    monthResult.textContent = '- -';
-    dayResult.textContent = '- -';
-    dayInput = "";
-    monthInput = "";
-    yearInput ="";
+  if(birthMonth < 1 || birthMonth > 12){
+    showError('Invalid month. Please enter a valid month.');
+    labelText.classList.add('error-label');
+    inputElement.classList.add('error-input');
+    return;
   }
 }
+
+  // calculate age
+
+  
+
+function getDaysInMonth(year, month) {
+  if (month === 2) {
+    // February
+    return isLeapYear(year) ? 29 : 28;
+  } else if ([4, 6, 9, 11].includes(month)) {
+    // April, June, September, November
+    return 30;
+  } else {
+    // Other months
+    return 31;
+  }
+}
+
+  // Check if a year is a leap year
+
+  function isLeapYear(year) {
+    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  }
+
+  function showError(message) {
+    const errorElement = document.createElement('p');
+    errorElement.classList.add('error-message');
+    errorElement.textContent = message;
+
+    const dataInput = document.getElementById('data-input');
+    dataInput.innerHTML = '- -';
+    dataInput.appendChild(errorElement);
+  }
+
+button.addEventListener('click', calculateAge());
+
+
+
+
+
+
+
+
+
+
+
+  
